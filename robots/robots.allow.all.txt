@@ -1,0 +1,8 @@
+user-agent: *
+allow: /
+allow: /*
+allow: /*/
+disallow: /samples*
+disallow: /samples/*
+disallow: /sample-pack*
+disallow: /sample-pack/*
