@@ -4,7 +4,7 @@
 
 ### Getting Started
 
-Start the development server with
+To adjust the code, start the development server by downloading the files. Make sure you have an IDE that can edit TypeScript, HTML, CSS, Tailwind, React and Shell.
 
 - Create a `.env` file at the root directory with the following env variables
 
