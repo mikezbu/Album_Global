@@ -1,4 +1,4 @@
-## Bevios App UI
+## Album Global App UI
 
 ---
 
@@ -25,4 +25,4 @@ then
 yarn start
 ```
 
-Open [http://localhost:3000](http://localhost:3002) with your browser and code away
+Open [http://localhost:3000](http://localhost:3002) with your browser, and open
