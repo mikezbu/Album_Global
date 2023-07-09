@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="67" height="67" viewBox="0 0 67 67">
+  <defs>
+    <linearGradient id="linear-gradient" x1="-0.641" y1="-0.246" x2="1.683" y2="1.322" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#c9747c"/>
+      <stop offset="1" stop-color="#793fef"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_2700" data-name="Group 2700" transform="translate(-2958 117)">
+    <circle id="Ellipse_17" data-name="Ellipse 17" cx="33.5" cy="33.5" r="33.5" transform="translate(2958 -117)" fill="url(#linear-gradient)"/>
+  </g>
+  <g id="Icon_feather-search" data-name="Icon feather-search" transform="translate(19.5 19.832)">
+    <path id="Path_640" data-name="Path 640" d="M20.8,12.649A8.149,8.149,0,1,1,12.649,4.5,8.149,8.149,0,0,1,20.8,12.649Z" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    <path id="Path_641" data-name="Path 641" d="M29.406,29.406l-4.431-4.431" transform="translate(-6.57 -6.57)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+  </g>
+</svg>

@@ -1,0 +1,17 @@
+#nprogress .bar {
+  background: #8c0a0a;
+
+  position: fixed;
+  z-index: 10000; /* z-index determines the stacking order of the elements on the webpage.*/
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 2px;
+  box-shadow: 0 0 7px #8c0a0a, 0 0 3px #8c0a0a;
+  opacity: 1;
+
+  -webkit-transform: rotate(3deg) translate(0px, -4px); /* webkit is used for older versions of the Webkit browsers (Safari and Chrome) */
+  -ms-transform: rotate(3deg) translate(0px, -4px); /* ms used for old microsoft suite items (Internet Explorer) */
+  transform: rotate(3deg) translate(0px, -4px);
+}

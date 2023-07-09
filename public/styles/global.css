@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @layer defines a new utility layer, -webkit-appearance removes the default appearance and there's 0 margin for the inner and outer spin buttons */
+@layer utilities {  
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+
+.ce-block__content {
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  margin-left: 3em;
+  margin-right: 1em;
+  padding-left: 0.25em;
+  padding-right: 0.25em;
+}
+
+.ce-toolbar__content {
+  margin: 0;
+  width: 100%;
+  margin-left: 2em;
+  margin-right: 1em;
+}
+
+.cdx-block::selection {
+  background-color: #f0f0f0;
+  color: black;
+}
+
+.ce-toolbar__settings-btn {
+  color: inherit;
+}
+
+.ce-toolbar__settings-btn:hover {
+  background-color: #f0f0f0;
+  color: black;
+}
+
+.ce-toolbar__plus {
+  color: inherit;
+}
+
+.ce-toolbar__plus:hover {
+  background-color: #f0f0f0;
+  color: black;
+}
+
+.ce-block--selected .ce-block__content {
+  background-color: #f0f0f0;
+  color: black;
+}
+
+.ce-popover__item-label {
+  color: black;
+}
+
+.codex-editor__redactor {
+  padding-bottom: 4em !important;
+}
+
+.ce-inline-toolbar__dropdown {
+  color: black;
+}
