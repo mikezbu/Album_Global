@@ -1,5 +1,6 @@
 ## Album Global App UI
 
+This is the GitHub repository for the front-end development of the website. It can be accessed here: bevios.com
 ---
 
 ### Getting Started
