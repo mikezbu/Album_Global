@@ -1,0 +1,49 @@
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
+import random
+
+lemmatizer = WordNetLemmatizer()
+
+intents_responses = {
+    "greeting": {
+        "examples": ["hello", "hi", "hey"],
+        "responses": ["Hello!", "Hi there!", "Hey! How can I help you?"]
+    },
+    "goodbye": {
+        "examples": ["bye", "goodbye", "see you"],
+        "responses": ["Goodbye!", "See you later!", "Bye! Have a great day!"]
+    },
+    "thanks": {
+        "examples": ["thanks", "thank you", "appreciate it"],
+        "responses": ["You're welcome!", "No problem!", "Anytime!"]
+    }
+}
+
+def process_input(input_sentence):
+    # Tokenize and lemmatize the input
+    tokens = word_tokenize(input_sentence.lower())
+    lemmatized_tokens = [lemmatizer.lemmatize(token) for token in tokens]
+    return lemmatized_tokens
+
+def determine_intent(processed_input):
+    # Find the matching intent by checking token overlap
+    for intent, intent_data in intents_responses.items():
+        for example in intent     :
+            if any(word in processed_input for word in example.split()):
+                return intent
+    return "unknown"
+
+def generate_response(intent):
+    if intent in intents_responses:
+        return random.choice(intents_responses[intent]["responses"])
+    else:
+        return "Sorry, I didn't understand that."
+
+def chatbot_response(user_input):
+    processed_input = process_input(user_input)
+    intent = determine_intent(processed_input)
+    return generate_response(intent)
+user_input = "hello"
+response = chatbot_response(user_input)
+print(response)  # Output might be: "Hello!"
