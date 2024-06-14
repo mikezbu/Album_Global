@@ -1,34 +1,23 @@
 import tensorflow as tf
 from tensorflow import keras
 import numpy as np
-import importlib
+import re
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
-sentences = [
-    'Importing into AWS',
-    'Albums highest in popularity'
-]
+input_sentence = input("Please enter a sentence: ")
 
-tokenizer = Tokenizer(num_words=100, oov_token = '<OOV>')
+tokenizer = Tokenizer(num_words=100, oov_token='<OOV>')
 
-# Fit the tokenizer on the texts
-tokenizer.fit_on_texts(sentences)
+tokenizer.fit_on_texts([input_sentence])
 
-# Get the word index map
 word_index = tokenizer.word_index
 print(word_index)
 
-# Convert texts to sequences
-sequences = tokenizer.texts_to_sequences(sentences)
+sequences = tokenizer.texts_to_sequences([input_sentence])
 print(sequences)
 
-# Correct usage of texts_to_sequences
-input_sequences = tokenizer.texts_to_sequences(sentences)
+max_sequence_len = max(len(x) for x in sequences)
 
-# Calculate the maximum sequence length
-max_sequence_len = max(len(x) for x in input_sequences)
-
-# Pad the sequences 
-padded_sequences = pad_sequences(input_sequences, maxlen=max_sequence_len, padding='pre')
+padded_sequences = pad_sequences(sequences, maxlen=max_sequence_len, padding='pre')
 print(padded_sequences)
