@@ -6,41 +6,46 @@ import re
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import io
-
 import matplotlib.pyplot as plt
 
-input_sentence = input("Please enter a type of genre you are interested in: ")
+input_sentence = input("Please enter a type of music genre you are interested in: ")
 
 tokenizer = Tokenizer(num_words=100, oov_token='<OOV>')
 
 tokenizer.fit_on_texts([input_sentence])
 
 word_index = tokenizer.word_index
-print(word_index)
 
 sequences = tokenizer.texts_to_sequences([input_sentence])
-print(sequences)
 
 max_sequence_len = max(len(x) for x in sequences)
 
 padded_sequences = pad_sequences(sequences, maxlen=max_sequence_len, padding='pre')
-print(padded_sequences)
 
-vocab_size = 10000
-embedding_dim = 16
-max_length = 100
-trunc_type='post'
+#setting up parameters for word processing
+
+vocab_size = 50000
+embedding_dim = 16 # setting up vector for embed
+max_length = 100 # setting up max word length as 100 words
+trunc_type='post' 
 padding_type='post'
 oov_tok = "<OOV>"
 training_size = 20000
 
-with open("/tmp/sarcasm.json", 'r') as f:
-    datastore = json.load(f)
+model = tf.keras.Sequential([
+    tf.keras.layers.Embedding(vocab_size, embedding_dim, input_length=max_length), #setting up embedding for turning words into numbers that the program can understand
+    tf.keras.layers.GlobalAveragePooling1D(), # setting general theme of words
+    tf.keras.layers.Dense(24, activation='relu'), #like the gate produced earlier
+    tf.keras.layers.Dense(1, activation='sigmoid') #introduces the values between 0 and 1, helps decide which category the input belongs to
+])
 
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy']) #helps measure the model predictions, compared to the actual labels
+
+# setting the lists to be sentences and labels
 sentences = []
 labels = []
 
-for item in datastore:
+for item in model:
     sentences.append(item['headline'])
     labels.append(item['is_sarcastic'])
 
@@ -74,7 +79,6 @@ num_epochs = 50
 history = model.fit(training_padded, training_labels, epochs=num_epochs, validation_data=(testing_padded, testing_labels), verbose=2)
 
 
-
 def plot_graphs(history, string):
     plt.plot(history.history[string])
     plt.plot(history.history['val_'+string])
@@ -82,7 +86,7 @@ def plot_graphs(history, string):
     plt.ylabel(string)
     plt.legend([string, 'val_'+string])
     plt.show()
-  
+
 plot_graphs(history, "accuracy")
 plot_graphs(history, "loss")
 
