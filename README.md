@@ -19,7 +19,6 @@ Album Global is more than just a marketplace; it's a community committed to boos
 Editor Notes:
 
 Created the front end (TypeScript) during undergrad, but since transitioning to data science, wanted to focus more on Python with the chatbot.
-<!--
 
 ### Getting Started
 
@@ -44,5 +43,5 @@ then
 yarn start
 ```
 
-Open [http://localhost:3000](http://localhost:3002) with your browser, and open
-!-->
+Open [http://localhost:3000](http://localhost:3002) with your browser, and the website should load up.
+
