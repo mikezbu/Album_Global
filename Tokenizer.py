@@ -22,7 +22,7 @@ max_sequence_len = max(len(x) for x in sequences)
 
 padded_sequences = pad_sequences(sequences, maxlen=max_sequence_len, padding='pre')
 
-#setting up parameters for word processing
+#setting up parameters for word processing and other
 
 vocab_size = 50000
 embedding_dim = 16 # setting up vector for embed
@@ -71,13 +71,17 @@ model = tf.keras.Sequential([
     tf.keras.layers.Dense(24, activation='relu'),
     tf.keras.layers.Dense(1, activation='sigmoid')
 ])
+
+#this tests the model compiler to see what is sarcastic and what is not
 model.compile(loss='binary_crossentropy',optimizer='adam',metrics=['accuracy'])
 
 model.summary()
 
+#telling the model validation data is for testing on material learned for validation data
 num_epochs = 50
 history = model.fit(training_padded, training_labels, epochs=num_epochs, validation_data=(testing_padded, testing_labels), verbose=2)
 
+#this plots the graph trend of what occurs
 
 def plot_graphs(history, string):
     plt.plot(history.history[string])
@@ -86,6 +90,8 @@ def plot_graphs(history, string):
     plt.ylabel(string)
     plt.legend([string, 'val_'+string])
     plt.show()
+
+#determine the graphs
 
 plot_graphs(history, "accuracy")
 plot_graphs(history, "loss")
@@ -126,3 +132,4 @@ sentence = ["Testing out Album Generation", "Which album is your favorite?"]
 sequences = tokenizer.texts_to_sequences(sentence)
 padded = pad_sequences(sequences, maxlen=max_length, padding=padding_type, truncating=trunc_type)
 print(model.predict(padded))
+
