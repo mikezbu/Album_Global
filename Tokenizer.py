@@ -7,6 +7,33 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import io
 import matplotlib.pyplot as plt
+import requests
+
+# URL of the JSON file
+url = 'https://storage.googleapis.com/learning-datasets/sarcasm.json'
+
+# Specify the path where you want to save the file
+# Example: save it in the same directory as your script
+file_path = 'D:\\Career\\Projects\\NLP Nutrition\\sarcasm.json'
+
+# Send a GET request to the URL
+response = requests.get(url)
+
+# Check if the request was successful
+if response.status_code == 200:
+    # Open a file to write the data to
+    with open(file_path, 'wb') as f:
+        f.write(response.content)
+else:
+    print("Failed to retrieve the file")
+
+# Load the JSON data into Python
+import json
+
+# Open the file for reading
+with open(file_path, 'r') as file:
+    sarcasm_data = json.load(file)
+
 
 input_sentence = input("Please enter a type of music genre you are interested in: ")
 
@@ -91,45 +118,30 @@ def plot_graphs(history, string):
     plt.legend([string, 'val_'+string])
     plt.show()
 
-#determine the graphs
+#determine the graphs accuracy and loss factors
 
 plot_graphs(history, "accuracy")
 plot_graphs(history, "loss")
 
+# assigning key:value pairs for the words entered, and reversing word to index mapping allows for numeric identifiers to occur
 reverse_word_index = dict([(value, key) for (key, value) in word_index.items()])
 
+# working on converting a sequence of numbers back into words and combine them into a sentence
 def decode_sentence(text):
     return ' '.join([reverse_word_index.get(i, '?') for i in text])
 
+# print these sentences out
 print(decode_sentence(training_padded[0]))
 print(training_sentences[2])
 print(labels[2])
 
-e = model.layers[0]
-weights = e.get_weights()[0]
-print(weights.shape) # shape: (vocab_size, embedding_dim)
 
+# e = model.layers[0]
+# weights = e.get_weights()[0]
+# print(weights.shape) # shape: (vocab_size, embedding_dim)
 
-out_v = io.open('vecs.tsv', 'w', encoding='utf-8')
-out_m = io.open('meta.tsv', 'w', encoding='utf-8')
-for word_num in range(1, vocab_size):
-    word = reverse_word_index[word_num]
-    embeddings = weights[word_num]
-    out_m.write(word + "\n")
-    out_v.write('\t'.join([str(x) for x in embeddings]) + "\n")
-out_v.close()
-out_m.close()
-
-try:
-    from google.colab import files
-except ImportError:
-    pass
-else:
-    files.download('vecs.tsv')
-    files.download('meta.tsv')
-
-sentence = ["Testing out Album Generation", "Which album is your favorite?"]
-sequences = tokenizer.texts_to_sequences(sentence)
-padded = pad_sequences(sequences, maxlen=max_length, padding=padding_type, truncating=trunc_type)
-print(model.predict(padded))
+# sentence = ["Testing out Album Generation", "Which album is your favorite?"]
+# sequences = tokenizer.texts_to_sequences(sentence)
+# padded = pad_sequences(sequences, maxlen=max_length, padding=padding_type, truncating=trunc_type)
+# print(model.predict(padded))
 
