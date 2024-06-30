@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Text Input for Chatbot</title>
+</head>
+<body>
+<h1>Chatbot</h1>
+<form action="/predict" method="post">
+    <input type="text" name="text" id="text" placeholder="Enter your text here...">
+    <button type="submit">Chatbot</button>
+</form>
+</body>
+</html>
