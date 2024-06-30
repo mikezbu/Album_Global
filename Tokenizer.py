@@ -8,6 +8,9 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 import io
 import matplotlib.pyplot as plt
 import requests
+from flask import Flask, request, render_template, jsonify
+
+app = Flask(__name__) 
 
 # URL of the JSON file
 url = 'https://storage.googleapis.com/learning-datasets/sarcasm.json'
@@ -72,6 +75,7 @@ model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy']
 sentences = []
 labels = []
 
+# setting the sarcasm for the items in the model
 for item in model:
     sentences.append(item['headline'])
     labels.append(item['is_sarcastic'])
@@ -81,16 +85,22 @@ testing_sentences = sentences[training_size:]
 training_labels = labels[0:training_size]
 testing_labels = labels[training_size:]
 
+# setting up the vocabulary size and tokens of the tokenizer
+
 tokenizer = Tokenizer(num_words=vocab_size, oov_token=oov_tok)
 tokenizer.fit_on_texts(training_sentences)
 
 word_index = tokenizer.word_index
+
+# making text to sequences longer, and separates them based off training or testing, initial length sentences or padded length sentences
 
 training_sequences = tokenizer.texts_to_sequences(training_sentences)
 training_padded = pad_sequences(training_sequences, maxlen=max_length, padding=padding_type, truncating=trunc_type)
 
 testing_sequences = tokenizer.texts_to_sequences(testing_sentences)
 testing_padded = pad_sequences(testing_sequences, maxlen=max_length, padding=padding_type, truncating=trunc_type)
+
+# stores the sequential elements and density factors, individual to keras layers
 
 model = tf.keras.Sequential([
     tf.keras.layers.Embedding(vocab_size, embedding_dim, input_length=max_length),
@@ -100,6 +110,7 @@ model = tf.keras.Sequential([
 ])
 
 #this tests the model compiler to see what is sarcastic and what is not
+
 model.compile(loss='binary_crossentropy',optimizer='adam',metrics=['accuracy'])
 
 model.summary()
@@ -108,8 +119,7 @@ model.summary()
 num_epochs = 50
 history = model.fit(training_padded, training_labels, epochs=num_epochs, validation_data=(testing_padded, testing_labels), verbose=2)
 
-#this plots the graph trend of what occurs
-
+#this plots the graph trend of performance over time, visualizaiton model
 def plot_graphs(history, string):
     plt.plot(history.history[string])
     plt.plot(history.history['val_'+string])
@@ -117,6 +127,20 @@ def plot_graphs(history, string):
     plt.ylabel(string)
     plt.legend([string, 'val_'+string])
     plt.show()
+
+@app.route('/', methods=['GET', 'POST'])
+def home():
+    if request.method == 'POST':
+        text = request.form['text']
+        sequence = tokenizer.texts_to_sequences([text])
+        padded = pad_sequences(sequence, maxlen=max_length, padding='post', truncating='post')
+        prediction = model.predict(padded)[0][0]
+        return render_template('index.html', prediction=float(prediction), input_text=text)
+    return render_template('index.html')
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
 
 #determine the graphs accuracy and loss factors
 
@@ -135,13 +159,16 @@ print(decode_sentence(training_padded[0]))
 print(training_sentences[2])
 print(labels[2])
 
+print("final value of the work")
 
-# e = model.layers[0]
-# weights = e.get_weights()[0]
-# print(weights.shape) # shape: (vocab_size, embedding_dim)
+# provides the first layer of the keras model, which is an embedding layer  
+e = model.layers[0]
+weights = e.get_weights()[0]
+print(weights.shape) # shape: (vocab_size, embedding_dim)
 
-# sentence = ["Testing out Album Generation", "Which album is your favorite?"]
-# sequences = tokenizer.texts_to_sequences(sentence)
-# padded = pad_sequences(sequences, maxlen=max_length, padding=padding_type, truncating=trunc_type)
-# print(model.predict(padded))
+# demonstrates how to pre-process data 
+sentence = ["Testing out Album Generation", "Which album is your favorite?"]
+sequences = tokenizer.texts_to_sequences(sentence)
+padded = pad_sequences(sequences, maxlen=max_length, padding=padding_type, truncating=trunc_type)
+print(model.predict(padded))
 
